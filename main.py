@@ -1,21 +1,54 @@
 import streamlit as st
-import os
+import pandas as pd
 
-st.title("Super Simple Title")
-st.header("This is a header")
-st.subheader("This is a subheader")
-st.markdown("This is a ***Markdown***")
-st.markdown("This is ~crossed~")
+# Title
+st.title("Streamlit Data Elements")
 
-st.divider()
-st.caption("This is a small caption")
+# Dataframe section
+st.subheader("Dataframe")
+df = pd.DataFrame(
+    {
+        "Name": ["Alice", "Bob", "Chris", "Tim", "Prashin"],
+        "Age": [34, 49, 44, 32, 21],
+        "Occupation": [
+            "Engineer",
+            "Principal Staff",
+            "Cricketer",
+            "Engineer",
+            "Cricketer",
+        ],
+    }
+)
 
-code_example = """
-def greet(name):
-  print('Hello', name)
-"""
-st.code(code_example, language="python")
+st.dataframe(df)
 
-# For rendering images, we need to have those images in a folder named `static` located in the same directory as our main app file
-# getcwd means get current working directory
-st.image(os.path.join(os.getcwd(), "static", "bg.webp"))
+
+# Data editor section (Editable datafram)
+st.subheader("Data Editor")
+editable_df = st.data_editor(df)
+print(editable_df)
+
+
+# Static table section
+st.subheader("Static Table")
+st.table(df)
+
+
+# Metrics section
+st.subheader("Metrics")
+st.metric(label="total rows", value=len(df))
+st.metric(label="average age", value=round(editable_df["Age"].mean(), 2))
+st.metric(label="max age", value=editable_df["Age"].max())
+st.metric(label="min age", value=editable_df["Age"].min())
+
+
+# json and dict section
+st.subheader("JSON and Dictionary")
+sample_dict = {
+    "name": "Prashin",
+    "age": 21,
+    "skills": ["Python", "Data Science", "AI", "Machine Learning"],
+}
+st.json(sample_dict)
+
+st.write("Dictionary View:", sample_dict)
