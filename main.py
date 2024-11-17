@@ -1,10 +1,16 @@
-# We can run the streamlit application by typing the following command in terminal: `streamlit run ./main.py`
-# It will then run a webserver for us on the port no 8501
-# Anytime something must be updated on the screen, Streamlit reruns the entire Python script from top to bottom
 import streamlit as st
 
-pressed = st.button("Press me")
-print("First:", pressed)
+st.title("Super Simple Title")
+st.header("This is a header")
+st.subheader("This is a subheader")
+st.markdown("This is a ***Markdown***")
+st.markdown("This is ~crossed~")
 
-pressed = st.button("Second button")
-print("Second:", pressed)
+st.divider()
+st.caption("This is a small caption")
+
+code_example = """
+def greet(name):
+  print('Hello', name)
+"""
+st.code(code_example, language="python")
