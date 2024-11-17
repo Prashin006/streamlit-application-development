@@ -1,54 +1,47 @@
 import streamlit as st
+import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Title
-st.title("Streamlit Data Elements")
+st.title("Streamlit Charts Demo")
 
-# Dataframe section
-st.subheader("Dataframe")
-df = pd.DataFrame(
-    {
-        "Name": ["Alice", "Bob", "Chris", "Tim", "Prashin"],
-        "Age": [34, 49, 44, 32, 21],
-        "Occupation": [
-            "Engineer",
-            "Principal Staff",
-            "Cricketer",
-            "Engineer",
-            "Cricketer",
-        ],
-    }
+# Generate sample data
+chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["A", "B", "C"])
+
+
+# Area chart section
+st.subheader("Area Chart")
+st.area_chart(chart_data)
+
+# Bar chart section
+st.subheader("Bar Chart")
+st.bar_chart(chart_data)
+
+# Line chart section
+st.subheader("Line Chart")
+st.line_chart(chart_data)
+
+# Scatter plot/chart section
+st.subheader("Scatter Chart")
+scatter_data = pd.DataFrame({"x": np.random.randn(100), "y": np.random.randn(100)})
+st.scatter_chart(scatter_data)
+
+# Map section (displaying random sections on a map)
+st.subheader("Map")
+map_data = pd.DataFrame(
+    np.random.randn(100, 2) / [50, 50]
+    + [37.76, -122.4],  # coordinates around san francisco
+    columns=["lat", "lon"],
 )
+st.map(map_data)
 
-st.dataframe(df)
-
-
-# Data editor section (Editable datafram)
-st.subheader("Data Editor")
-editable_df = st.data_editor(df)
-print(editable_df)
-
-
-# Static table section
-st.subheader("Static Table")
-st.table(df)
-
-
-# Metrics section
-st.subheader("Metrics")
-st.metric(label="total rows", value=len(df))
-st.metric(label="average age", value=round(editable_df["Age"].mean(), 2))
-st.metric(label="max age", value=editable_df["Age"].max())
-st.metric(label="min age", value=editable_df["Age"].min())
-
-
-# json and dict section
-st.subheader("JSON and Dictionary")
-sample_dict = {
-    "name": "Prashin",
-    "age": 21,
-    "skills": ["Python", "Data Science", "AI", "Machine Learning"],
-}
-st.json(sample_dict)
-
-st.write("Dictionary View:", sample_dict)
+# Pyplot section
+st.subheader("Pyplot Chart")
+fig, ax = plt.subplots()
+ax.plot(chart_data["A"], label="A")
+ax.plot(chart_data["B"], label="B")
+ax.plot(chart_data["C"], label="C")
+ax.set_title("Pyplot line chart")
+ax.legend()
+st.pyplot(fig)
