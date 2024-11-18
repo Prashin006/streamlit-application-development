@@ -1,47 +1,34 @@
 import streamlit as st
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 
 # Title
-st.title("Streamlit Charts Demo")
+st.title("Form Elements")
 
-# Generate sample data
-chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["A", "B", "C"])
+# Form to hold interactive elements
+with st.form(key="sample_form", clear_on_submit=True):
+    # Text input
+    st.subheader("Text Input")
+    name = st.text_input("Enter your name")
+    feedback = st.text_area("Provide your feedback")
 
+    # Date and time inputs
+    st.subheader("Date and Time Inputs")
+    dob = st.date_input("Select your date of birth")
+    time = st.time_input("Select your preferred time")
 
-# Area chart section
-st.subheader("Area Chart")
-st.area_chart(chart_data)
+    # Selectors 
+    st.subheader("Selectors")
+    choice = st.radio("Choose an option", ["Fried Rice", "Noodles", "Soup"])
+    gender = st.selectbox("Gender", ["Male", "Female", "Other"])
+    slider_value = st.select_slider("Select a range", options=[1, 2, 3, 4, 5])
 
-# Bar chart section
-st.subheader("Bar Chart")
-st.bar_chart(chart_data)
+    # Toggles and checkboxes
+    st.subheader("Toggles & Checkboxes")
+    notifications = st.checkbox("Receive notifications?", value=True)
+    toggle_value = st.checkbox("Enable dark mode?", value=False)
 
-# Line chart section
-st.subheader("Line Chart")
-st.line_chart(chart_data)
+    # Submit button for the form
+    submit_button = st.form_submit_button(label="Submit")
 
-# Scatter plot/chart section
-st.subheader("Scatter Chart")
-scatter_data = pd.DataFrame({"x": np.random.randn(100), "y": np.random.randn(100)})
-st.scatter_chart(scatter_data)
-
-# Map section (displaying random sections on a map)
-st.subheader("Map")
-map_data = pd.DataFrame(
-    np.random.randn(100, 2) / [50, 50]
-    + [37.76, -122.4],  # coordinates around san francisco
-    columns=["lat", "lon"],
-)
-st.map(map_data)
-
-# Pyplot section
-st.subheader("Pyplot Chart")
-fig, ax = plt.subplots()
-ax.plot(chart_data["A"], label="A")
-ax.plot(chart_data["B"], label="B")
-ax.plot(chart_data["C"], label="C")
-ax.set_title("Pyplot line chart")
-ax.legend()
-st.pyplot(fig)
+# Outside of the form
+st.subheader("Buttons")
