@@ -1,15 +1,37 @@
-# Session state is something that we can use to store values within the same user session
-# Session persists through the rerun of our code
-# If the user refreshes or reloads the page then the session changes
 import streamlit as st
 
-if "counter" not in st.session_state:
-    st.session_state.counter = 0
+# Callbacks are functions that we can run/trigger when a button is pressed or when a `onchange` or `onclick` like event occurs
+# A callback function runs before any other code can rerun
+if "step" not in st.session_state:
+    st.session_state.step = 1
 
-if st.button("Increment Counter"):
-    st.session_state.counter += 1
-    st.write(f"Counter incremented to {st.session_state.counter}")
+if "info" not in st.session_state:
+    st.session_state.info = {}
 
-if st.button("Reset"):
-    st.session_state.counter = 0
-st.write(f"Counter value: {st.session_state.counter}")
+
+def go_to_step1():
+    st.session_state.step = 1
+
+
+def go_to_step2(name):
+    # st.session_state.info["name"] = name
+    st.session_state.step = 2
+
+
+if st.session_state.step == 1:
+    st.header("Part 1: Info")
+    name = st.text_input("Name", value=st.session_state.info.get("name", ""))
+
+    st.button("Next", on_click=go_to_step2, args=(name,))
+
+if st.session_state.step == 2:
+    st.header("Part 2: Review")
+    st.subheader("Please review this:")
+    st.write(f"**Name**: {st.session_state.info.get('name', '')}")
+
+    if st.button("Submit"):
+        st.success("Great!")
+        st.balloons()
+        st.session_state.info = {}
+
+    st.button("Back", on_click=go_to_step1)
