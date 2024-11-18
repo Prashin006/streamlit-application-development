@@ -1,32 +1,18 @@
 import streamlit as st
-from datetime import datetime
 
-min_date = datetime(1990, 1, 1)
-max_date = datetime.now()
+# A simple counter variable without session state
+counter = 0
 
-st.title("user information form".capitalize())
+st.write(f"Counter value: {counter}")
 
-# key is used to uniquely identify the form
-# Only after the submit button is pressed, the code reruns and updates the state
-with st.form(key="user_info_form", clear_on_submit=True):
-    name1 = st.text_input("Enter your first name")
-    birth_date = st.date_input(
-        "Enter your birth date", min_value=min_date, max_value=max_date
-    )
+# Button to increment the counter
+if st.button("Increment Counter"):
+    counter += 1
+    st.write(f"Counter incremented to {counter}")
+else:
+    st.write(f"Counter stays at {counter}")
 
-    if birth_date:
-        age = max_date.year - birth_date.year
-        if (birth_date.month > max_date.month) or (
-            birth_date.month == max_date.month and birth_date.day > max_date.day
-        ):
-            age -= 1
-        st.write(f"Your calculated age is {age} years!")
-
-    submit_button1 = st.form_submit_button(label="Submit Form")
-
-    if submit_button1:
-        if not name1 or not birth_date:
-            st.warning("Please fill out all of the form fields!")
-        else:
-            st.success(f"Thank you, {name1}. You age is {age}.")
-            st.balloons()
+# Explanation
+# After pressing the increment button every time, the counter stays at 1 and does not move forward. This is because when we press the button, the code reruns from the start and `counter = 0` line is at the top, so counter becomes 0 every time we press the button.
+# `st.write(f"Counter value: {counter}")` line writes the value `0` of the counter and
+# then the button value is evaluated to True and counter is incremented from 0 to 1 and the value 1 is written on the screen.
