@@ -1,34 +1,32 @@
 import streamlit as st
-import pandas as pd
+from datetime import datetime
 
-# Title
-st.title("Form Elements")
+st.title("User Information Form")
 
-# Form to hold interactive elements
-with st.form(key="sample_form", clear_on_submit=True):
-    # Text input
-    st.subheader("Text Input")
-    name = st.text_input("Enter your name")
-    feedback = st.text_area("Provide your feedback")
+form_values = {"name": None, "height": None, "gender": None, "dob": None}
 
-    # Date and time inputs
-    st.subheader("Date and Time Inputs")
-    dob = st.date_input("Select your date of birth")
-    time = st.time_input("Select your preferred time")
+with st.form(key="user_info_form", clear_on_submit=True):
+    form_values["name"] = st.text_input("Enter your name")
+    form_values["height"] = st.number_input(
+        "Enter your height (cms)", step=1, min_value=0, max_value=250
+    )
+    form_values["gender"] = st.selectbox(
+        "Select your gender", ["Male", "Female", "Other"]
+    )
+    form_values["dob"] = st.date_input(
+        "Enter your date of birth",
+        min_value=datetime(1940, 1, 1),
+        max_value=datetime.now(),
+    )
 
-    # Selectors 
-    st.subheader("Selectors")
-    choice = st.radio("Choose an option", ["Fried Rice", "Noodles", "Soup"])
-    gender = st.selectbox("Gender", ["Male", "Female", "Other"])
-    slider_value = st.select_slider("Select a range", options=[1, 2, 3, 4, 5])
-
-    # Toggles and checkboxes
-    st.subheader("Toggles & Checkboxes")
-    notifications = st.checkbox("Receive notifications?", value=True)
-    toggle_value = st.checkbox("Enable dark mode?", value=False)
-
-    # Submit button for the form
     submit_button = st.form_submit_button(label="Submit")
-
-# Outside of the form
-st.subheader("Buttons")
+    print("after submit")
+    if submit_button:
+        print("in if")
+        if not all(form_values.values()):
+            st.warning("Please fill in all of the fields")
+        else:
+            st.balloons()
+            st.write("### Information")
+            for key, val in form_values.items():
+                st.write(f"{key.capitalize()}: {val}")
